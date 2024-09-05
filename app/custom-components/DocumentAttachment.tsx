@@ -32,7 +32,7 @@ const AttachInputField: React.FC<AttachInputFieldProps> = ({ onFileSelected, sel
             uri: URL.createObjectURL(file),
             name: file.name,
             size: file.size,
-          } as DocumentPicker.DocumentPickerSuccessResult;
+          } as unknown as DocumentPicker.DocumentPickerSuccessResult;
           console.log('Web selected file:', fileResult);
           setLocalSelectedFile(fileResult);
           onFileSelected(fileResult);

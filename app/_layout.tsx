@@ -2,6 +2,7 @@
 
 import '~/global.css';
 
+import { Toaster } from 'react-hot-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Theme, ThemeProvider } from '@react-navigation/native';
 import { SplashScreen, Stack } from 'expo-router';
@@ -92,6 +93,24 @@ export default function RootLayout() {
         />
       </Stack>
       <PortalHost />
+      <Toaster 
+        position="bottom-right" // Position the toast at the bottom-right
+        toastOptions={{
+          style: {
+            background: isDarkColorScheme ? '#0a0b0b' : '#fafafa', // Adjust background based on theme
+            color: isDarkColorScheme ? '#fafafa' : '#0a0b0b', // Adjust text color based on theme
+            border: '1px solid', // Add a border to match your UI style
+            borderColor: isDarkColorScheme ? '#27272a' : '#27272a', // Border color based on theme
+            borderRadius: '8px', // Add rounded corners
+            padding: '16px', // Add padding for better spacing
+            boxShadow: isDarkColorScheme ? '0 4px 8px rgba(0, 0, 0, 0.3)' : '0 4px 8px rgba(0, 0, 0, 0.1)', // Subtle shadow
+            maxWidth: '300px',  // Increase the max width
+            maxHeight: '200px', // Set a max height for taller toasts
+            wordWrap: 'break-word', // Ensure text wraps within the toast
+            overflowY: 'auto', // Prevent content from overflowing
+          },
+        }}
+      />
     </ThemeProvider>
   );
 }

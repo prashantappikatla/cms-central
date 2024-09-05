@@ -14,6 +14,7 @@ import { Text } from '~/components/ui/text';
 import { Input } from '~/components/ui/input';
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip';
 import * as DocumentPicker from 'expo-document-picker';
+import toast from 'react-hot-toast';
 
 export default function Screen() {
   // Local state to manage form data
@@ -68,6 +69,24 @@ export default function Screen() {
 
       console.log('FormData prepared:', formDataToSend); // Debug: log the prepared FormData
 
+      toast.custom((t) => (
+        <div style={{
+          ...t.style, // Inherit global styles
+          overflowX: 'auto',
+          fontFamily: 'monospace', // Customize to show JSON with monospace font
+          whiteSpace: 'pre-wrap', // Preserve JSON formatting
+        }}>
+        <strong>
+          Dispute Details Entered:
+        </strong>
+        <pre>{JSON.stringify({
+          name: formData.name, 
+          email: formData.email, 
+          document: formData.documents.name 
+          }, null, 2)}</pre>
+      </div>
+      ));
+
       // Send the form data to your Express API
       const apiResponse = await fetch('http://localhost:8000/api/dispute', {
         method: 'POST',
@@ -76,17 +95,21 @@ export default function Screen() {
 
       console.log('API Response status:', apiResponse.status); // Debug: log the API response status
 
-      if (apiResponse.ok) {
+       // Show toast with the status of the request
+       if (apiResponse.ok) {
+        toast.success(`Success! Status: ${apiResponse.status}`);
         Alert.alert('Success', 'Process started successfully!');
         // Optionally reset form or navigate
         setFormData({ name: '', email: '', documents: null });
       } else {
         const errorText = await apiResponse.text(); // Get error details if available
         console.error('Failed to start the process. Error:', errorText);
+        toast.error(`Error! Status: ${apiResponse.status} - ${errorText}`);
         Alert.alert('Error', 'Failed to start the process. Please try again.');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
+      toast.error('An error occurred. Please try again.');
       Alert.alert('Error', 'An error occurred. Please try again.');
     }
   };
