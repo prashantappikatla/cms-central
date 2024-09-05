@@ -84,6 +84,12 @@ export default function RootLayout() {
             ), 
           }}
         />
+        <Stack.Screen
+            name='test-component'
+            options={{
+              headerTitle: 'Test Component',
+            }}
+        />
       </Stack>
       <PortalHost />
     </ThemeProvider>
